@@ -127,7 +127,7 @@ Foursquare venuses search element
             '_generateRequestWithNear(clientId, clientSecret, near,radius, section, limit, offset)'
         ],
         _updateLocation: function(latitude, longitude) {
-            this.location = latitude + ',' + longitude;
+            this._setLocation(latitude + ',' + longitude);
         },
         _generateRequestWithLocation: function(clientId, clientSecret, location, radius, section, limit, offset) {
             var params = {
