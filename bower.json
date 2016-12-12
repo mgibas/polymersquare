@@ -1,7 +1,16 @@
 {
-  "name": "foursquare-venues-explore",
-  "description": "Foursquare venuses search element",
+  "name": "Polymersquare",
+  "description": "Foursquare API polymer elements",
   "main": "foursquare-venues-explore.html",
+  "keywords":[
+    "web-components",
+    "polymer",
+    "foursquare"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgibas/polymersquare.git"
+  },
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-ajax": "polymerelements/iron-ajax#^1.4.3"
