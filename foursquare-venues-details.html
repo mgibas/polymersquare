@@ -11,7 +11,7 @@ Foursquare venuses details element
 
 <dom-module id="foursquare-venues-details">
     <template>
-        <iron-ajax id="ajax" url="https://api.foursquare.com/v2/venues/[[venueId]]" handle-as="json" params="[[_params]]" last-response="{{details}}" last-error="{{lastError}}"></iron-ajax>
+        <iron-ajax id="ajax" url="https://api.foursquare.com/v2/venues/[[venueId]]" handle-as="json" params="[[_params]]" last-response="{{lastResponse}}" last-error="{{lastError}}" on-response="_handleResponse"></iron-ajax>
     </template>
 
     <script>
@@ -58,6 +58,18 @@ Foursquare venuses details element
                         readOnly: true
                     },
                     /**
+                     * last response.
+                     *
+                     * Note that lastResponse and lastError are set when last request finishes,
+                     * so if loading is true, then lastResponse and lastError will correspond
+                     * to the result of the previous request.
+                     */
+                    lastResponse: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true
+                    },
+                    /**
                      * last error, if any.
                      */
                     lastError: {
@@ -82,6 +94,9 @@ Foursquare venuses details element
                     client_secret: clientSecret
                 };
                 this.$.ajax.generateRequest();
+            }
+            _handleResponse() {
+                this._setDetails(this.$.ajax.lastResponse.response.venue);
             }
         }
         Polymer(FoursquareVenuesDetails);
