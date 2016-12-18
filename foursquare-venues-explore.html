@@ -5,158 +5,192 @@
 `foursquare-venues-explore`
 Foursquare venuses search element
 
+@element foursquare-venues-explore
 @demo demo/index.html 
 -->
 
 <dom-module id="foursquare-venues-explore">
     <template>
-        <iron-ajax id="ajax" url="https://api.foursquare.com/v2/venues/explore" handle-as="json" params="[[_params]]" last-error="[[lastError]]" on-response="_handleResponse"></iron-ajax>
+        <iron-ajax id="ajax" auto debounce-duration="300" url="https://api.foursquare.com/v2/venues/explore" handle-as="json" params="[[_params]]" last-error="[[lastError]]" on-response="_handleResponse"></iron-ajax>
     </template>
 
     <script>
-    Polymer({
-        is: 'foursquare-venues-explore',
-        properties: {
-            /**
-             * Latitude of the center of the search area.
-             */
-            latitude: {
-                type: Number
-            },
-            /**
-             * Longitude of the center of the search area.
-             */
-            longitude: {
-                type: Number
-            },
-            /**
-             * Latitude and longitude of the user's location. 
-             * Required unless near is provided. 
-             */
-            location: {
-                type: Object,
-                readOnly: true
-            },
-            /**
-             * Foursquare API client id
-             */
-            clientId: {
-                type: String
-            },
-            /**
-             * Foursquare API client secret
-             */
-            clientSecret: {
-                type: String
-            },
-            /**
-             * A string naming a place in the world. 
-             * If the near string is not geocodable, returns a failed_geocode error. 
-             * Otherwise, searches within the bounds of the geocode and adds a geocode object to the response.
-             **/
-            near: {
-                type: String
-            },
-            /**
-             * Radius to search within, in meters. 
-             * If radius is not specified, a suggested radius will be used based on the density of venues in the area.
-             **/
-            radius: {
-                type: Number,
-                value: null
-            },
-            /**
-             * One of food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, 
-             * nextVenues (venues frequently visited after a given venue), 
-             * or topPicks (a mix of recommendations generated without a query from the user). 
-             * Choosing one of these limits results to venues with the specified category or property.
-             **/
-            section: {
-                type: String,
-                value: null
-            },
-            /**
-             * Number of results to return, up to 50.
-             **/
-            limit: {
-                type: Number,
-                value: 10
-            },
-            /**
-             * Used to page through results.
-             **/
-            offset: {
-                type: Number,
-                value: 0
-            },
-            /**
-             * True while request is in flight.
-             **/
-            loading: {
-                type: Boolean,
-                value: false,
-                notify: true
-            },
-            /**
-             * last response.
-             *
-             * Note that lastResponse and lastError are set when last request finishes,
-             * so if loading is true, then lastResponse and lastError will correspond
-             * to the result of the previous request.
-             */
-            lastResponse: {
-                type: Object,
-                notify: true,
-                readOnly: true
-            },
-            /**
-             * last error, if any.
-             */
-            lastError: {
-                type: Object,
-                notify: true,
-                readOnly: true
-            },
-            _params: {
-                type: Object
+    (() => {
+        'use strict';
+        class FoursquareVenuesExplore {
+            get is() {
+                return 'foursquare-venues-explore';
             }
-        },
-        observers: [
-            '_updateLocation(latitude,longitude)',
-            '_generateRequestWithLocation(clientId, clientSecret, location, radius, section, limit, offset)',
-            '_generateRequestWithNear(clientId, clientSecret, near,radius, section, limit, offset)'
-        ],
-        _updateLocation: function(latitude, longitude) {
-            this._setLocation(latitude + ',' + longitude);
-        },
-        _generateRequestWithLocation: function(clientId, clientSecret, location, radius, section, limit, offset) {
-            var params = {
-                v: '20161211',
-                client_id: clientId,
-                client_secret: clientSecret,
-                ll: location
-            };
-            if (radius) params.radius = radius;
-            if (section) params.section = section;
-            this._params = params;
-            this.$.ajax.generateRequest();
-        },
-        _generateRequestWithNear: function(clientId, clientSecret, near, radius, section, limit, offset) {
-            var params = {
-                v: '20161211',
-                client_id: clientId,
-                client_secret: clientSecret,
-                near: near
-            };
-            if (radius) params.radius = radius;
-            if (section) params.section = section;
-            this._params = params;
-            this.$.ajax.generateRequest();
-        },
-        _handleResponse: function() {
-            this._setLastResponse(this.$.ajax.lastResponse.response);
-            console.log(this.lastResponse)
+            get properties() {
+                return {
+                    /**
+                     * Latitude of the center of the search area.
+                     */
+                    latitude: {
+                        type: Number
+                    },
+                    /**
+                     * Longitude of the center of the search area.
+                     */
+                    longitude: {
+                        type: Number
+                    },
+                    /**
+                     * Latitude and longitude of the user's location. 
+                     * Required unless near is provided. 
+                     */
+                    location: {
+                        type: Object,
+                        readOnly: true
+                    },
+                    /**
+                     * Foursquare API client id
+                     */
+                    clientId: {
+                        type: String
+                    },
+                    /**
+                     * Foursquare API client secret
+                     */
+                    clientSecret: {
+                        type: String
+                    },
+                    /**
+                     * A string naming a place in the world. 
+                     * If the near string is not geocodable, returns a failed_geocode error. 
+                     * Otherwise, searches within the bounds of the geocode and adds a geocode object to the response.
+                     **/
+                    near: {
+                        type: String
+                    },
+                    /**
+                     * Radius to search within, in meters. 
+                     * If radius is not specified, a suggested radius will be used based on the density of venues in the area.
+                     **/
+                    radius: {
+                        type: Number,
+                        value: null
+                    },
+                    /**
+                     * One of food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, 
+                     * nextVenues (venues frequently visited after a given venue), 
+                     * or topPicks (a mix of recommendations generated without a query from the user). 
+                     * Choosing one of these limits results to venues with the specified category or property.
+                     **/
+                    section: {
+                        type: String,
+                        value: null
+                    },
+                    /**
+                     * Number of results to return, up to 50.
+                     **/
+                    limit: {
+                        type: Number,
+                        value: 10
+                    },
+                    /**
+                     * Used to page through results.
+                     **/
+                    offset: {
+                        type: Number,
+                        value: 0
+                    },
+                    /**
+                     * True while request is in flight.
+                     **/
+                    loading: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    /**
+                     * last response.
+                     *
+                     * Note that lastResponse and lastError are set when last request finishes,
+                     * so if loading is true, then lastResponse and lastError will correspond
+                     * to the result of the previous request.
+                     */
+                    lastResponse: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true
+                    },
+                    /**
+                     * last error, if any.
+                     */
+                    lastError: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true
+                    },
+                    /**
+                     * Result Venues
+                     * Note that if group is not specified venues from all groups will be returned
+                     **/
+                    venues: {
+                        type: Array,
+                        notify: true,
+                        readOnly: true
+                    },
+                    /**
+                     * Return venues only for specified groupd. 
+                     * Foursquaer returns venues in groups (ie. recommended)
+                     * Specify multiple groups using comma or none to get venues from all groups
+                     **/
+                    venueGroups: {
+                        type: String
+                    },
+                    _params: {
+                        type: Object
+                    }
+                };
+            }
+            get observers() {
+                return [
+                    '_updateLocation(latitude,longitude)',
+                    '_updateParamsUsingLocation(clientId, clientSecret, location, radius, section, limit, offset)',
+                    '_updateParamsUsingNear(clientId, clientSecret, near,radius, section, limit, offset)'
+                ];
+            }
+            _updateLocation(latitude, longitude) {
+                this._setLocation(`${latitude},${longitude}`);
+            }
+            _updateParamsUsingLocation(clientId, clientSecret, location, radius, section, limit, offset) {
+                var params = {
+                    v: '20161211',
+                    client_id: clientId,
+                    client_secret: clientSecret,
+                    ll: location
+                };
+                if (radius) params.radius = radius;
+                if (section) params.section = section;
+                this._params = params;
+            }
+            _updateParamsUsingNear(clientId, clientSecret, near, radius, section, limit, offset) {
+                if (near === '') return;
+                var params = {
+                    v: '20161211',
+                    client_id: clientId,
+                    client_secret: clientSecret,
+                    near: near
+                };
+                if (radius) params.radius = radius;
+                if (section) params.section = section;
+                this._params = params;
+            }
+            _handleResponse() {
+                var groups = this.$.ajax.lastResponse.response.groups;
+                if (this.venueGroups)
+                    groups = groups.filter((g) => this.venueGroups.split(',').indexOf(g.name) > 0);
+                var venues = groups
+                    .map((g) => g.items)
+                    .reduce((a, b) => a.concat(b))
+                    .map((item) => item.venue);
+                this._setVenues(venues);
+                this._setLastResponse(this.$.ajax.lastResponse.response);
+            }
         }
-    });
+        Polymer(FoursquareVenuesExplore);
+    })();
     </script>
 </dom-module>

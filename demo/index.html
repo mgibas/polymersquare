@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -10,23 +11,31 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-input/paper-input.html">
+    <link rel="import" href="../../juicy-jsoneditor/juicy-jsoneditor.html">
     <link rel="import" href="../foursquare-venues-explore.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
+
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
+
     <div class="vertical-section-container centered">
-      <h3>Basic foursquare-venues-explore demo</h3>
-      <demo-snippet>
-        <template>
-          <foursquare-venues-explore 
-            client-id="YOUR_CLIENT_ID"
-            client-secret="YOUR_CLIENT_SECRET"
-            near="Miami"
-            section="topPicks"></foursquare-venues-explore>
-        </template>
-      </demo-snippet>
+        <h3>Basic foursquare-venues-explore demo</h3>
+        <demo-snippet>
+            <template is="dom-bind">
+                <paper-input label="Client Id" value="{{clientId}}"></paper-input>
+                <paper-input label="Client Secret" value="{{clientSecret}}"></paper-input>
+                <paper-input label="Near" value="{{near}}"></paper-input>
+                <paper-input label="Section" value="{{section}}"></paper-input>
+                <foursquare-venues-explore client-id="YOUR_CLIENT_ID" client-secret="YOUR_CLIENT_SECRET" near="[[near]]" section="[[section]]" last-response="{{response}}" venues="{{venues}}"></foursquare-venues-explore>
+                <juicy-jsoneditor mode="code" json="[[response]]"></juicy-jsoneditor>
+                <juicy-jsoneditor mode="code" json="[[venues]]"></juicy-jsoneditor>
+            </template>
+        </demo-snippet>
     </div>
-  </body>
+</body>
+
 </html>
