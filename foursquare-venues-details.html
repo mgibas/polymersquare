@@ -1,0 +1,94 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`foursquare-venues-details`
+Foursquare venuses details element
+
+@element foursquare-venues-details
+@demo demo/index.html 
+-->
+
+<dom-module id="foursquare-venues-details">
+    <template>
+        <iron-ajax id="ajax" url="https://api.foursquare.com/v2/venues/[[venueId]]" handle-as="json" params="[[_params]]" last-error="[[lastError]]" on-response="_handleResponse"></iron-ajax>
+    </template>
+
+    <script>
+    (() => {
+        'use strict';
+        class FoursquareVenuesDetails {
+            get is() {
+                return 'foursquare-venues-details';
+            }
+            get properties() {
+                return {
+                    /**
+                     * Id of venue
+                     */
+                    venueId: {
+                        type: Number
+                    },
+                    /**
+                     * Foursquare API client id
+                     */
+                    clientId: {
+                        type: String
+                    },
+                    /**
+                     * Foursquare API client secret
+                     */
+                    clientSecret: {
+                        type: String
+                    },
+                    /**
+                     * True while request is in flight.
+                     **/
+                    loading: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    /**
+                     * last response.
+                     *
+                     * Note that lastResponse and lastError are set when last request finishes,
+                     * so if loading is true, then lastResponse and lastError will correspond
+                     * to the result of the previous request.
+                     */
+                    lastResponse: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true
+                    },
+                    /**
+                     * last error, if any.
+                     */
+                    lastError: {
+                        type: Object,
+                        notify: true,
+                        readOnly: true
+                    },
+                    _params: {
+                        type: Object
+                    }
+                };
+            }
+            get observers() {
+                return [
+                    '_generateRequest(venueId, clientId, clientSecret)'
+                ];
+            }
+            _generateRequest(venueId, clientId, clientSecret) {
+                this._params = {
+                    v: '20161211',
+                    client_id: clientId,
+                    client_secret: clientSecret
+                };
+                this.$.ajax.generateRequest();
+            }
+        }
+        Polymer(FoursquareVenuesDetails);
+    })();
+    </script>
+</dom-module>
