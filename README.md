@@ -6,6 +6,12 @@ Foursquare venuses search element
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
 
+## Install Required Components
+
+```
+$ bower install
+```
+
 ## Viewing Your Application
 
 ```
