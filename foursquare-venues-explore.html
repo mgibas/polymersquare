@@ -1,12 +1,12 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <!--
 `foursquare-venues-explore`
 Foursquare venuses search element
 
 @element foursquare-venues-explore
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="foursquare-venues-explore">
@@ -36,8 +36,8 @@ Foursquare venuses search element
                         type: Number
                     },
                     /**
-                     * Latitude and longitude of the user's location. 
-                     * Required unless near is provided. 
+                     * Latitude and longitude of the user's location.
+                     * Required unless near is provided.
                      */
                     location: {
                         type: Object,
@@ -56,15 +56,15 @@ Foursquare venuses search element
                         type: String
                     },
                     /**
-                     * A string naming a place in the world. 
-                     * If the near string is not geocodable, returns a failed_geocode error. 
+                     * A string naming a place in the world.
+                     * If the near string is not geocodable, returns a failed_geocode error.
                      * Otherwise, searches within the bounds of the geocode and adds a geocode object to the response.
                      **/
                     near: {
                         type: String
                     },
                     /**
-                     * Radius to search within, in meters. 
+                     * Radius to search within, in meters.
                      * If radius is not specified, a suggested radius will be used based on the density of venues in the area.
                      **/
                     radius: {
@@ -72,9 +72,9 @@ Foursquare venuses search element
                         value: null
                     },
                     /**
-                     * One of food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, 
-                     * nextVenues (venues frequently visited after a given venue), 
-                     * or topPicks (a mix of recommendations generated without a query from the user). 
+                     * One of food, drinks, coffee, shops, arts, outdoors, sights, trending or specials,
+                     * nextVenues (venues frequently visited after a given venue),
+                     * or topPicks (a mix of recommendations generated without a query from the user).
                      * Choosing one of these limits results to venues with the specified category or property.
                      **/
                     section: {
@@ -133,7 +133,7 @@ Foursquare venuses search element
                         readOnly: true
                     },
                     /**
-                     * Return venues only for specified groupd. 
+                     * Return venues only for specified groupd.
                      * Foursquaer returns venues in groups (ie. recommended)
                      * Specify multiple groups using comma or none to get venues from all groups
                      **/
